@@ -3,7 +3,7 @@
 
 Name:		%{upstream_name}
 Version:	%{upstream_version}
-Release:	%mkrel 1
+Release:	%mkrel 0.1
 Summary:	Simple wiimote usage assistant and mapping manager
 License:	GPL
 Group:		Development/Perl
@@ -12,14 +12,14 @@ Source0:	%{name}-%{version}.tar.gz
 
 Provides:	wiican = %{upstream_version}
 Obsoletes:	wiican < %{upstream_version}
-Requires:	Python >= 2.5
+Requires:	Python 
 Requires:	dbus-python
 Requires:	PyGTK
 Requires:	PyYAML
 Requires:	PyINotify
 Requires:	gnome-bluetooth
 BuildArch:	noarch
-BuildRequires:	Python >= 2.5
+BuildRequires:	Python 
 
 
 
