@@ -19,7 +19,7 @@ Requires:	PyYAML
 Requires:	PyINotify
 Requires:	gnome-bluetooth
 BuildArch:	noarch
-BuildRequires:	python 
+BuildRequires:	python-devel
 
 
 
