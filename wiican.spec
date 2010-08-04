@@ -12,14 +12,14 @@ Source0:	%{name}-%{version}.tar.gz
 
 Provides:	wiican = %{upstream_version}
 Obsoletes:	wiican < %{upstream_version}
-Requires:	Python 
+Requires:	python 
 Requires:	dbus-python
 Requires:	PyGTK
 Requires:	PyYAML
 Requires:	PyINotify
 Requires:	gnome-bluetooth
 BuildArch:	noarch
-BuildRequires:	Python 
+BuildRequires:	python 
 
 
 
