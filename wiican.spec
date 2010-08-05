@@ -1,13 +1,13 @@
 %define name	wiican
 %define version	0.2.1
-%define rel	1
+%define rel	2
 
 %define udev_rules_dir	/lib/udev/rules.d
 
 Name:		%{name}
 Version:	%{version}
 Release:	%mkrel %{rel}
-Summary:	Simple wiimote usage assistant and mapping manager
+Summary:	Simple Wiimote usage assistant and mapping manager
 License:	GPLv3
 Group:		System/Configuration/Hardware
 Url:		http://fontanon.org/wiican/
@@ -22,13 +22,13 @@ Requires:	cwiid
 %py_requires -d
 
 %description
-WiiCan assists on configuration and management of your wiimote under
-GNU/Linux. It tracks bluetooth connectivity and allows to use and
-create mappings to adapt your wiimote for use on any application.
+WiiCan assists on configuration and management of your Wiimote under
+GNU/Linux. It tracks Bluetooth connectivity and allows to use and
+create mappings to adapt your Wiimote for use on any application.
 
-Actually WiiCan is a sytem tray icon, programmed in python. It
-connects to bluez and hal via dbus for tracking the available
-bluetooth devices and wiimote connection status.
+Actually WiiCan is a system tray icon, programmed in Python. It
+connects to bluez and HAL via D-Bus for tracking the available
+Bluetooth devices and Wiimote connection status.
 
 %prep
 %setup -q
@@ -48,8 +48,20 @@ echo uinput > %{buildroot}%{_sysconfdir}/modprobe.preload.d/wiican-uinput
 mkdir -p %{buildroot}%{udev_rules_dir}
 install -m0644 udev-rules/45-uinput.rules %{buildroot}%{udev_rules_dir}/51-wiican-uinput.rules
 
+#fix desktop file
+desktop-file-install \
+        --dir %{buildroot}%{_datadir}/applications/ \
+	--remove-category=HardwareSettings \
+	--remove-key=GenericName \
+	%{buildroot}%{_datadir}/applications/%{name}.desktop
+	
 %clean
 rm -rf %{buildroot}
+
+%post
+set -x
+/sbin/modprobe uinput &>/dev/null
+:
 
 %files
 %defattr(-,root,root)
