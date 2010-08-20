@@ -19,6 +19,7 @@ Requires:	pygtk2
 Requires:	python-yaml
 Requires:	python-pyinotify
 Requires:	cwiid
+BuildRequires:	desktop-file-utils
 %py_requires -d
 
 %description
