@@ -1,6 +1,6 @@
 %define name	wiican
 %define version	0.2.1
-%define rel	2
+%define rel	3
 
 %define udev_rules_dir	/lib/udev/rules.d
 
