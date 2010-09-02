@@ -1,6 +1,6 @@
 %define name	wiican
 %define version	0.3.0
-%define rel	1
+%define rel	2
 
 %define udev_rules_dir	/lib/udev/rules.d
 
@@ -13,6 +13,7 @@ Group:		System/Configuration/Hardware
 Url:		http://fontanon.org/wiican/
 Source0:	http://launchpad.net/wiican/0.2/%{version}/+download/%{name}-%{version}.tar.gz
 Patch0:		wiican-0.3.0-fix_prefixdir.patch
+Patch1:		wiican-0.3.0-utils_keynone.patch
 BuildArch:	noarch
 Requires:	python-dbus
 Requires:	gnome-bluetooth
@@ -39,6 +40,7 @@ Bluetooth devices and Wiimote connection status.
 %prep
 %setup -q
 %patch0
+%patch1
 
 #fix prefix
 sed -i -e 's,@MDV_PREFIX@,%{_prefix},' setup.py
