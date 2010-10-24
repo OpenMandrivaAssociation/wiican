@@ -1,6 +1,6 @@
 %define name	wiican
-%define version	0.3.0
-%define rel	2
+%define version	0.3.1
+%define rel	1
 
 %define udev_rules_dir	/lib/udev/rules.d
 
@@ -13,7 +13,6 @@ Group:		System/Configuration/Hardware
 Url:		http://fontanon.org/wiican/
 Source0:	http://launchpad.net/wiican/0.2/%{version}/+download/%{name}-%{version}.tar.gz
 Patch0:		wiican-0.3.0-fix_prefixdir.patch
-Patch1:		wiican-0.3.0-utils_keynone.patch
 BuildArch:	noarch
 Requires:	python-dbus
 Requires:	gnome-bluetooth
@@ -40,7 +39,6 @@ Bluetooth devices and Wiimote connection status.
 %prep
 %setup -q
 %patch0
-%patch1
 
 #fix prefix
 sed -i -e 's,@MDV_PREFIX@,%{_prefix},' setup.py
@@ -56,9 +54,10 @@ rm -rf %{buildroot}
 mkdir -p %{buildroot}%{_sysconfdir}/modprobe.preload.d
 echo uinput > %{buildroot}%{_sysconfdir}/modprobe.preload.d/wiican-uinput
 
-#udev-rule, change priority to override system default setting
+#fix udev-rule name and location
 mkdir -p %{buildroot}%{udev_rules_dir}
-install -m0644 udev-rules/99-uinput-rules %{buildroot}%{udev_rules_dir}/99-wiican-uinput.rules
+mv %{buildroot}%{_prefix}%{udev_rules_dir}/99-uinput-rules \
+   %{buildroot}%{udev_rules_dir}/99-wiican-uinput.rules
 
 #fix desktop file
 desktop-file-install \
@@ -68,7 +67,7 @@ desktop-file-install \
 	%{buildroot}%{_datadir}/applications/%{name}.desktop
 	
 #gconf schema
-install -D -m0644 wiican.schemas %{buildroot}%{_sysconfdir}/gconf/schemas/%{name}.schemas
+install -D -m0644 data/wiican.schemas %{buildroot}%{_sysconfdir}/gconf/schemas/%{name}.schemas
 
 %find_lang %{name}
 
@@ -98,4 +97,7 @@ set -x
 %{_bindir}/%{name}-service
 %{udev_rules_dir}/99-wiican-uinput.rules
 %{_iconsdir}/hicolor/*/*/%{name}*
+%{_iconsdir}/hicolor/scalable/mimetypes/gnome-mime-application-x-wii.svg
 %{_datadir}/dbus-1/services/org.gnome.wiican.service
+%{_datadir}/mime/packages/wiican.xml
+
