@@ -1,6 +1,6 @@
 %define name	wiican
-%define version	0.3.1
-%define rel	2
+%define version	0.3.2
+%define rel	1
 
 %define udev_rules_dir	/lib/udev/rules.d
 
@@ -11,8 +11,7 @@ Summary:	Simple Wiimote usage assistant and mapping manager
 License:	GPLv3
 Group:		System/Configuration/Hardware
 Url:		http://fontanon.org/wiican/
-Source0:	http://launchpad.net/wiican/0.2/%{version}/+download/%{name}-%{version}.tar.gz
-Patch0:		wiican-0.3.0-fix_prefixdir.patch
+Source0:	http://launchpad.net/wiican/0.3/%{version}/+download/%{name}-%{version}.tar.gz
 BuildArch:	noarch
 Requires:	python-dbus
 Requires:	gnome-bluetooth
@@ -24,8 +23,8 @@ Requires:	gnome-python-gconf
 Requires:	python-gobject
 Requires:	cwiid
 Requires:	pyxdg
+BuildRequires:	python-devel
 BuildRequires:	desktop-file-utils
-%py_requires -d
 
 %description
 WiiCan assists on configuration and management of your Wiimote under
@@ -37,26 +36,23 @@ connects to bluez and HAL via D-Bus for tracking the available
 Bluetooth devices and Wiimote connection status.
 
 %prep
-%setup -q
-%patch0
-
-#fix prefix
-sed -i -e 's,@MDV_PREFIX@,%{_prefix},' setup.py
+%setup -q -n %{name}
 
 %build
 %{__python} setup.py build
 
 %install
 rm -rf %{buildroot}
-%{__python} setup.py install --root %{buildroot}
+%{__python} setup.py install \
+        --prefix=%{_prefix} \
+	--root %{buildroot}
 
 #autoload uinput module
 mkdir -p %{buildroot}%{_sysconfdir}/modprobe.preload.d
 echo uinput > %{buildroot}%{_sysconfdir}/modprobe.preload.d/wiican-uinput
 
-#fix udev-rule name and location
-mkdir -p %{buildroot}%{udev_rules_dir}
-mv %{buildroot}%{_prefix}%{udev_rules_dir}/99-uinput-rules \
+#fix udev-rule name
+mv %{buildroot}%{udev_rules_dir}/99-uinput.rules \
    %{buildroot}%{udev_rules_dir}/99-wiican-uinput.rules
 
 #fix desktop file
@@ -66,9 +62,6 @@ desktop-file-install \
 	--remove-key=GenericName \
 	%{buildroot}%{_datadir}/applications/%{name}.desktop
 	
-#gconf schema
-install -D -m0644 data/wiican.schemas %{buildroot}%{_sysconfdir}/gconf/schemas/%{name}.schemas
-
 %find_lang %{name}
 
 %clean
@@ -100,4 +93,3 @@ set -x
 %{_iconsdir}/hicolor/scalable/mimetypes/gnome-mime-application-x-wii.svg
 %{_datadir}/dbus-1/services/org.gnome.wiican.service
 %{_datadir}/mime/packages/wiican.xml
-
