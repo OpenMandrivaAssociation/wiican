@@ -36,7 +36,7 @@ connects to bluez and HAL via D-Bus for tracking the available
 Bluetooth devices and Wiimote connection status.
 
 %prep
-%setup -q -n %{name}
+%setup -q
 
 %build
 %{__python} setup.py build
