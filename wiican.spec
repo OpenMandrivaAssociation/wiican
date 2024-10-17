@@ -10,7 +10,7 @@ Release:	%mkrel %{rel}
 Summary:	Simple Wiimote usage assistant and mapping manager
 License:	GPLv3
 Group:		System/Configuration/Hardware
-Url:		http://fontanon.org/wiican/
+Url:		https://fontanon.org/wiican/
 Source0:	http://launchpad.net/wiican/0.3/%{version}/+download/%{name}-%{version}.tar.gz
 BuildArch:	noarch
 Requires:	python-dbus
