@@ -6,7 +6,7 @@
 
 Name:		%{name}
 Version:	%{version}
-Release:	%mkrel %{rel}
+Release:	%{rel}.1
 Summary:	Simple Wiimote usage assistant and mapping manager
 License:	GPLv3
 Group:		System/Configuration/Hardware
